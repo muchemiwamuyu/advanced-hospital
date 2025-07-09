@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevLink - Advanced 3D Interactive Logo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(ellipse at center, #0a0a0a 0%, #1a1a2e 40%, #16213e 80%, #0f0f0f 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            perspective: 2000px;
+            position: relative;
+        }
+
+        /* Background animated grid */
+        .background-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 170, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 170, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            z-index: -2;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .logo-scene {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            transform-style: preserve-3d;
+            animation: sceneRotate 15s ease-in-out infinite;
+        }
+
+        .logo-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: containerFloat 8s ease-in-out infinite;
+        }
+
+        /* Multiple layered frames */
+        .frame-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 25px;
+            transform-style: preserve-3d;
+        }
+
+        .frame-layer-1 {
+            border: 4px solid transparent;
+            background: linear-gradient(45deg, #00d4aa, #0066ff, #8a2be2, #ff6b6b, #00d4aa) border-box;
+            background-clip: padding-box;
+            animation: frame1Rotate 8s linear infinite;
+            transform: translateZ(0px);
+        }
+
+        .frame-layer-2 {
+            border: 3px solid transparent;
+            background: linear-gradient(-45deg, #ff6b6b, #8a2be2, #0066ff, #00d4aa, #ff6b6b) border-box;
+            background-clip: padding-box;
+            animation: frame2Rotate 12s linear infinite reverse;
+            transform: translateZ(20px) scale(0.9);
+            opacity: 0.8;
+        }
+
+        .frame-layer-3 {
+            border: 2px solid transparent;
+            background: linear-gradient(90deg, #00d4aa, #0066ff, #00d4aa) border-box;
+            background-clip: padding-box;
+            animation: frame3Rotate 16s linear infinite;
+            transform: translateZ(40px) scale(0.8);
+            opacity: 0.6;
+        }
+
+        .inner-content {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateZ(60px);
+            overflow: hidden;
+        }
+
+        .logo-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateZ(80px);
+            color: #fff;
+            font-size: 4rem;
+            font-weight: 900;
+            text-align: center;
+            letter-spacing: -2px;
+            animation: textPulse 4s ease-in-out infinite;
+        }
+
+        .dev-text {
+            background: linear-gradient(135deg, #00d4aa 0%, #0066ff 50%, #00d4aa 100%);
+            background-size: 200% 200%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        .link-text {
+            background: linear-gradient(135deg, #ff6b6b 0%, #8a2be2 50%, #ff6b6b 100%);
+            background-size: 200% 200%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            animation: gradientShift 3s ease-in-out infinite reverse;
+        }
+
+        /* 3D geometric elements */
+        .geometric-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+
+        .geo-element {
+            position: absolute;
+            transform-style: preserve-3d;
+        }
+
+        .cube {
+            width: 30px;
+            height: 30px;
+            animation: cubeRotate 6s linear infinite;
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(45deg, rgba(0, 212, 170, 0.6), rgba(0, 102, 255, 0.6));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cube-face:nth-child(1) { transform: rotateY(0deg) translateZ(15px); }
+        .cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(15px); }
+        .cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(15px); }
+        .cube-face:nth-child(4) { transform: rotateY(270deg) translateZ(15px); }
+        .cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(15px); }
+        .cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(15px); }
+
+        .sphere {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #00d4aa, #0066ff);
+            box-shadow: 0 0 20px rgba(0, 212, 170, 0.5);
+            animation: sphereBounce 5s ease-in-out infinite;
+        }
+
+        .pyramid {
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 25px solid rgba(255, 107, 107, 0.7);
+            animation: pyramidSpin 7s linear infinite;
+        }
+
+        /* Connection network */
+        .connection-network {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform: translateZ(50px);
+        }
+
+        .connection-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00d4aa, transparent);
+            opacity: 0.7;
+            animation: connectionPulse 4s ease-in-out infinite;
+        }
+
+        .connection-node {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #00d4aa;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00d4aa;
+            animation: nodePulse 2s ease-in-out infinite;
+        }
+
+        /* Holographic effect */
+        .hologram-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(0, 212, 170, 0.1) 50%,
+                transparent 70%
+            );
+            animation: hologramScan 6s linear infinite;
+            transform: translateZ(100px);
+            pointer-events: none;
+        }
+
+        /* Advanced particle system */
+        .particle-system {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform: translateZ(70px);
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #00d4aa;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFlow 8s linear infinite;
+        }
+
+        /* Animations */
+        @keyframes sceneRotate {
+            0%, 100% { transform: rotateY(0deg) rotateX(0deg); }
+            25% { transform: rotateY(90deg) rotateX(5deg); }
+            50% { transform: rotateY(180deg) rotateX(0deg); }
+            75% { transform: rotateY(270deg) rotateX(-5deg); }
+        }
+
+        @keyframes containerFloat {
+            0%, 100% { transform: translateY(0px) rotateZ(0deg); }
+            50% { transform: translateY(-15px) rotateZ(5deg); }
+        }
+
+        @keyframes frame1Rotate {
+            from { transform: translateZ(0px) rotateZ(0deg); }
+            to { transform: translateZ(0px) rotateZ(360deg); }
+        }
+
+        @keyframes frame2Rotate {
+            from { transform: translateZ(20px) scale(0.9) rotateZ(0deg); }
+            to { transform: translateZ(20px) scale(0.9) rotateZ(-360deg); }
+        }
+
+        @keyframes frame3Rotate {
+            from { transform: translateZ(40px) scale(0.8) rotateZ(0deg); }
+            to { transform: translateZ(40px) scale(0.8) rotateZ(360deg); }
+        }
+
+        @keyframes textPulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) translateZ(80px) scale(1);
+                text-shadow: 0 0 20px rgba(0, 212, 170, 0.5);
+            }
+            50% { 
+                transform: translate(-50%, -50%) translateZ(80px) scale(1.05);
+                text-shadow: 0 0 30px rgba(0, 212, 170, 0.8), 0 0 40px rgba(0, 102, 255, 0.4);
+            }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes cubeRotate {
+            from { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+            to { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+        }
+
+        @keyframes sphereBounce {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
+        }
+
+        @keyframes pyramidSpin {
+            from { transform: rotateY(0deg) rotateX(0deg); }
+            to { transform: rotateY(360deg) rotateX(180deg); }
+        }
+
+        @keyframes connectionPulse {
+            0%, 100% { opacity: 0.3; transform: scaleX(1); }
+            50% { opacity: 1; transform: scaleX(1.2); }
+        }
+
+        @keyframes nodePulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 10px #00d4aa; }
+            50% { transform: scale(1.5); box-shadow: 0 0 20px #00d4aa; }
+        }
+
+        @keyframes hologramScan {
+            0% { transform: translateZ(100px) translateX(-100%); }
+            100% { transform: translateZ(100px) translateX(100%); }
+        }
+
+        @keyframes particleFlow {
+            0% { opacity: 0; transform: translateY(100vh) rotateZ(0deg); }
+            10%, 90% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-100vh) rotateZ(360deg); }
+        }
+
+        /* Interactive states */
+        .logo-scene:hover {
+            animation-play-state: paused;
+            transform: rotateY(20deg) rotateX(10deg) scale(1.1);
+            transition: transform 0.5s ease;
+        }
+
+        .logo-scene:hover .logo-text {
+            animation-duration: 1s;
+        }
+
+        .logo-scene:hover .particle {
+            animation-duration: 2s;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .logo-scene {
+                width: 350px;
+                height: 350px;
+            }
+            
+            .logo-text {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-scene {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .logo-text {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-grid"></div>
+    
+    <div class="logo-scene" id="logoScene">
+        <div class="logo-container">
+            <!-- Layered frames -->
+            <div class="frame-layer frame-layer-1"></div>
+            <div class="frame-layer frame-layer-2"></div>
+            <div class="frame-layer frame-layer-3"></div>
+            
+            <!-- Inner content -->
+            <div class="inner-content">
+                <div class="hologram-layer"></div>
+            </div>
+            
+            <!-- Main logo text -->
+            <div class="logo-text">
+                <span class="dev-text">dev</span><span class="link-text">link</span>
+            </div>
+            
+            <!-- 3D geometric elements -->
+            <div class="geometric-elements" id="geoElements">
+                <!-- Dynamic elements will be added via JavaScript -->
+            </div>
+            
+            <!-- Connection network -->
+            <div class="connection-network" id="connectionNetwork">
+                <!-- Dynamic connections will be added via JavaScript -->
+            </div>
+            
+            <!-- Particle system -->
+            <div class="particle-system" id="particleSystem">
+                <!-- Dynamic particles will be added via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Advanced mouse tracking with smooth interpolation
+        let mouseX = 0, mouseY = 0;
+        let targetRotationX = 0, targetRotationY = 0;
+        let currentRotationX = 0, currentRotationY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            
+            targetRotationY = mouseX * 25;
+            targetRotationX = -mouseY * 25;
+        });
+
+        // Smooth animation loop
+        function animate() {
+            currentRotationX += (targetRotationX - currentRotationX) * 0.05;
+            currentRotationY += (targetRotationY - currentRotationY) * 0.05;
+            
+            const logoScene = document.getElementById('logoScene');
+            logoScene.style.transform = `
+                rotateY(${currentRotationY}deg) 
+                rotateX(${currentRotationX}deg)
+            `;
+            
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Create 3D geometric elements
+        function createGeometricElements() {
+            const container = document.getElementById('geoElements');
+            
+            // Create cubes
+            for (let i = 0; i < 4; i++) {
+                const cube = document.createElement('div');
+                cube.className = 'geo-element cube';
+                cube.style.left = Math.random() * 80 + 10 + '%';
+                cube.style.top = Math.random() * 80 + 10 + '%';
+                cube.style.transform = `translateZ(${Math.random() * 100 + 50}px)`;
+                cube.style.animationDelay = Math.random() * 6 + 's';
+                
+                for (let j = 0; j < 6; j++) {
+                    const face = document.createElement('div');
+                    face.className = 'cube-face';
+                    cube.appendChild(face);
+                }
+                
+                container.appendChild(cube);
+            }
+            
+            // Create spheres
+            for (let i = 0; i < 6; i++) {
+                const sphere = document.createElement('div');
+                sphere.className = 'geo-element sphere';
+                sphere.style.left = Math.random() * 85 + 7.5 + '%';
+                sphere.style.top = Math.random() * 85 + 7.5 + '%';
+                sphere.style.transform = `translateZ(${Math.random() * 80 + 40}px)`;
+                sphere.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(sphere);
+            }
+            
+            // Create pyramids
+            for (let i = 0; i < 3; i++) {
+                const pyramid = document.createElement('div');
+                pyramid.className = 'geo-element pyramid';
+                pyramid.style.left = Math.random() * 80 + 10 + '%';
+                pyramid.style.top = Math.random() * 80 + 10 + '%';
+                pyramid.style.transform = `translateZ(${Math.random() * 60 + 30}px)`;
+                pyramid.style.animationDelay = Math.random() * 7 + 's';
+                container.appendChild(pyramid);
+            }
+        }
+
+        // Create connection network
+        function createConnectionNetwork() {
+            const container = document.getElementById('connectionNetwork');
+            
+            // Create connection lines
+            const connections = [
+                { left: '20%', top: '30%', width: '60%', rotation: '15deg' },
+                { left: '15%', top: '70%', width: '70%', rotation: '-10deg' },
+                { left: '40%', top: '15%', width: '45%', rotation: '45deg' },
+                { left: '30%', top: '50%', width: '40%', rotation: '-30deg' }
+            ];
+            
+            connections.forEach((conn, index) => {
+                const line = document.createElement('div');
+                line.className = 'connection-line';
+                line.style.left = conn.left;
+                line.style.top = conn.top;
+                line.style.width = conn.width;
+                line.style.transform = `rotate(${conn.rotation})`;
+                line.style.animationDelay = index * 0.5 + 's';
+                container.appendChild(line);
+            });
+            
+            // Create connection nodes
+            const nodes = [
+                { left: '20%', top: '30%' },
+                { left: '80%', top: '30%' },
+                { left: '15%', top: '70%' },
+                { left: '85%', top: '70%' },
+                { left: '50%', top: '20%' },
+                { left: '50%', top: '80%' }
+            ];
+            
+            nodes.forEach((node, index) => {
+                const nodeEl = document.createElement('div');
+                nodeEl.className = 'connection-node';
+                nodeEl.style.left = node.left;
+                nodeEl.style.top = node.top;
+                nodeEl.style.animationDelay = index * 0.3 + 's';
+                container.appendChild(nodeEl);
+            });
+        }
+
+        // Create advanced particle system
+        function createParticleSystem() {
+            const container = document.getElementById('particleSystem');
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 6 + 4) + 's';
+                
+                // Random colors for particles
+                const colors = ['#00d4aa', '#0066ff', '#8a2be2', '#ff6b6b'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // Click interaction with advanced effects
+        document.getElementById('logoScene').addEventListener('click', () => {
+            const logoScene = document.getElementById('logoScene');
+            
+            // Create explosion effect
+            for (let i = 0; i < 20; i++) {
+                const spark = document.createElement('div');
+                spark.style.position = 'absolute';
+                spark.style.width = '4px';
+                spark.style.height = '4px';
+                spark.style.background = '#00d4aa';
+                spark.style.borderRadius = '50%';
+                spark.style.left = '50%';
+                spark.style.top = '50%';
+                spark.style.pointerEvents = 'none';
+                
+                const angle = (i / 20) * Math.PI * 2;
+                const distance = Math.random() * 200 + 100;
+                
+                spark.animate([
+                    { transform: 'translate(-50%, -50%) translate(0, 0)', opacity: 1 },
+                    { transform: `translate(-50%, -50%) translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`, opacity: 0 }
+                ], {
+                    duration: 1000,
+                    easing: 'ease-out'
+                });
+                
+                logoScene.appendChild(spark);
+                
+                setTimeout(() => spark.remove(), 1000);
+            }
+            
+            // Logo spin effect
+            logoScene.style.animation = 'none';
+            logoScene.style.transform = 'rotateY(1080deg) rotateX(360deg) scale(1.3)';
+            logoScene.style.transition = 'transform 2s ease';
+            
+            setTimeout(() => {
+                logoScene.style.animation = 'sceneRotate 15s ease-in-out infinite';
+                logoScene.style.transform = '';
+                logoScene.style.transition = '';
+            }, 2000);
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            switch(e.code) {
+                case 'Space':
+                    e.preventDefault();
+                    // Speed up all animations
+                    document.querySelectorAll('*').forEach(el => {
+                        el.style.animationDuration = '0.5s';
+                    });
+                    setTimeout(() => {
+                        document.querySelectorAll('*').forEach(el => {
+                            el.style.animationDuration = '';
+                        });
+                    }, 3000);
+                    break;
+                    
+                case 'KeyR':
+                    // Reset all animations
+                    location.reload();
+                    break;
+            }
+        });
+
+        // Initialize all systems
+        createGeometricElements();
+        createConnectionNetwork();
+        createParticleSystem();
+
+        // Performance optimization: pause animations when not visible
+        document.addEventListener('visibilitychange', () => {
+            const elements = document.querySelectorAll('*');
+            if (document.hidden) {
+                elements.forEach(el => el.style.animationPlayState = 'paused');
+            } else {
+                elements.forEach(el => el.style.animationPlayState = 'running');
+            }
+        });
+    </script>
+</body>
+</html>

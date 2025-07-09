@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevLink Logo Collection - Demo</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #00d4aa, #0066ff, #8a2be2, #ff6b6b);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #ccc;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            margin-bottom: 80px;
+        }
+
+        .demo-section h2 {
+            color: #00d4aa;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .demo-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 212, 170, 0.2);
+        }
+
+        .demo-card h3 {
+            color: #00d4aa;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .demo-card p {
+            color: #ccc;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .logo-preview {
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .logo-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        .features-list li {
+            padding: 5px 0;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .features-list li:before {
+            content: "✨ ";
+            color: #00d4aa;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #00d4aa, #0066ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 212, 170, 0.3);
+        }
+
+        .technical-specs {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .technical-specs h4 {
+            color: #0066ff;
+            margin-bottom: 10px;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .spec-label {
+            color: #ccc;
+        }
+
+        .spec-value {
+            color: #00d4aa;
+            font-weight: bold;
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            border-left: 4px solid #00d4aa;
+        }
+
+        .instructions h3 {
+            color: #00d4aa;
+            margin-bottom: 15px;
+        }
+
+        .code-block {
+            background: #1a1a2e;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #00d4aa;
+        }
+
+        @media (max-width: 768px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>DevLink Logo Collection</h1>
+        <p>Interactive 3D logos with stunning visual effects, multiple variations, and easy integration options for modern web applications.</p>
+    </div>
+
+    <div class="demo-section">
+        <h2>Logo Variations</h2>
+        <div class="demo-grid">
+            
+            <!-- Standard Logo -->
+            <div class="demo-card">
+                <h3>Standard Interactive Logo</h3>
+                <p>Perfect balance of visual effects and performance for general use</p>
+                
+                <div class="logo-preview">
+                    <iframe src="devlink_logo.html"></iframe>
+                </div>
+                
+                <div class="technical-specs">
+                    <h4>Technical Specifications</h4>
+                    <div class="spec-item">
+                        <span class="spec-label">Size:</span>
+                        <span class="spec-value">400x400px</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Performance:</span>
+                        <span class="spec-value">Medium</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">File Size:</span>
+                        <span class="spec-value">~13KB</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Animations:</span>
+                        <span class="spec-value">8 Types</span>
+                    </div>
+                </div>
+
+                <ul class="features-list">
+                    <li>Mouse tracking rotation</li>
+                    <li>Hover scaling effects</li>
+                    <li>Click spin animation</li>
+                    <li>Floating particles</li>
+                    <li>Gradient text effects</li>
+                    <li>Connection network lines</li>
+                    <li>Ripple click effects</li>
+                    <li>Responsive design</li>
+                </ul>
+
+                <a href="devlink_logo.html" class="cta-button" target="_blank">View Full Screen</a>
+            </div>
+
+            <!-- Advanced Logo -->
+            <div class="demo-card">
+                <h3>Advanced 3D Logo</h3>
+                <p>Premium version with sophisticated effects for hero sections</p>
+                
+                <div class="logo-preview">
+                    <iframe src="devlink_logo_advanced.html"></iframe>
+                </div>
+                
+                <div class="technical-specs">
+                    <h4>Technical Specifications</h4>
+                    <div class="spec-item">
+                        <span class="spec-label">Size:</span>
+                        <span class="spec-value">500x500px</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Performance:</span>
+                        <span class="spec-value">High Impact</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">File Size:</span>
+                        <span class="spec-value">~23KB</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Animations:</span>
+                        <span class="spec-value">15+ Types</span>
+                    </div>
+                </div>
+
+                <ul class="features-list">
+                    <li>Multiple frame layers</li>
+                    <li>3D geometric elements</li>
+                    <li>Advanced particle systems</li>
+                    <li>Holographic scan effects</li>
+                    <li>Smooth mouse interpolation</li>
+                    <li>Explosion click effects</li>
+                    <li>Keyboard shortcuts</li>
+                    <li>Background grid animation</li>
+                </ul>
+
+                <a href="devlink_logo_advanced.html" class="cta-button" target="_blank">View Full Screen</a>
+            </div>
+
+            <!-- Component Logo -->
+            <div class="demo-card">
+                <h3>Component Collection</h3>
+                <p>Lightweight, embeddable components with multiple size and theme options</p>
+                
+                <div class="logo-preview">
+                    <iframe src="devlink_logo_component.html"></iframe>
+                </div>
+                
+                <div class="technical-specs">
+                    <h4>Technical Specifications</h4>
+                    <div class="spec-item">
+                        <span class="spec-label">Sizes:</span>
+                        <span class="spec-value">100-300px</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Performance:</span>
+                        <span class="spec-value">Optimized</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">File Size:</span>
+                        <span class="spec-value">~12KB</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Themes:</span>
+                        <span class="spec-value">5 Variants</span>
+                    </div>
+                </div>
+
+                <ul class="features-list">
+                    <li>Multiple size variations</li>
+                    <li>Theme options (dark, light, minimal)</li>
+                    <li>Easy integration API</li>
+                    <li>Framework compatibility</li>
+                    <li>Auto-initialization</li>
+                    <li>Minimal resource usage</li>
+                    <li>Mobile optimized</li>
+                    <li>Copy-paste ready</li>
+                </ul>
+
+                <a href="devlink_logo_component.html" class="cta-button" target="_blank">View Full Screen</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="instructions">
+        <h3>🚀 Quick Integration</h3>
+        <p>Choose the logo that best fits your needs and follow these simple steps:</p>
+        
+        <div class="code-block">
+&lt;!-- Step 1: Copy the HTML structure --&gt;
+&lt;div class="devlink-logo"&gt;
+    &lt;div class="logo-frame"&gt;
+        &lt;div class="logo-inner"&gt;
+            &lt;div class="logo-text"&gt;
+                &lt;span class="dev-part"&gt;dev&lt;/span&gt;&lt;span class="link-part"&gt;link&lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="logo-particles"&gt;&lt;/div&gt;
+&lt;/div&gt;
+        </div>
+        
+        <div class="code-block">
+/* Step 2: Include the CSS styles */
+/* Copy styles from the chosen HTML file */
+
+/* Step 3: Initialize JavaScript (for component version) */
+DevLinkLogo.init('.devlink-logo');
+        </div>
+    </div>
+
+    <div class="instructions">
+        <h3>📋 Usage Recommendations</h3>
+        <ul class="features-list">
+            <li><strong>Standard Logo:</strong> Website headers, landing pages, general branding</li>
+            <li><strong>Advanced Logo:</strong> Hero sections, premium presentations, splash screens</li>
+            <li><strong>Component Logo:</strong> Navigation bars, business cards, email signatures</li>
+            <li><strong>Performance:</strong> Use component version for production, advanced for showcases</li>
+            <li><strong>Mobile:</strong> All versions are responsive and mobile-optimized</li>
+            <li><strong>Customization:</strong> Easily modify colors, sizes, and animation speeds</li>
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin: 60px 0;">
+        <h2 style="color: #00d4aa;">Ready to Implement?</h2>
+        <p style="color: #ccc; margin-bottom: 30px;">Choose your preferred logo variation and start integrating today!</p>
+        
+        <a href="README_DevLink_Logos.md" class="cta-button">📖 Read Documentation</a>
+        <a href="devlink_logo_component.html" class="cta-button">🎯 Start with Components</a>
+        <a href="devlink_logo_advanced.html" class="cta-button">🚀 Try Advanced Version</a>
+    </div>
+
+    <footer style="text-align: center; padding: 40px 0; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 60px;">
+        <p style="color: #666;">
+            Created with ❤️ for DevLink • Modern Interactive Logo Collection<br>
+            <span style="color: #00d4aa;">Bringing your brand to life with cutting-edge web technologies</span>
+        </p>
+    </footer>
+</body>
+</html>

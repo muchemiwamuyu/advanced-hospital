@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevLink Logo Component</title>
+    <style>
+        .devlink-logo {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+            display: inline-block;
+            transform-style: preserve-3d;
+            perspective: 800px;
+            animation: logoFloat 6s ease-in-out infinite;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .devlink-logo:hover {
+            transform: scale(1.1);
+            animation-play-state: paused;
+        }
+
+        .logo-frame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
+            border-radius: 15px;
+            background: linear-gradient(45deg, #00d4aa, #0066ff, #8a2be2, #ff6b6b) border-box;
+            background-clip: padding-box;
+            animation: frameRotate 8s linear infinite;
+            transform-style: preserve-3d;
+        }
+
+        .logo-inner {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translateZ(20px);
+        }
+
+        .logo-text {
+            font-family: 'Arial', sans-serif;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            animation: textGlow 3s ease-in-out infinite alternate;
+        }
+
+        .dev-part {
+            background: linear-gradient(45deg, #00d4aa, #0066ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .link-part {
+            background: linear-gradient(45deg, #ff6b6b, #8a2be2);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00d4aa;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleMove 4s linear infinite;
+        }
+
+        /* Animations */
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px) rotateY(0deg); }
+            50% { transform: translateY(-10px) rotateY(180deg); }
+        }
+
+        @keyframes frameRotate {
+            from { transform: rotateZ(0deg); }
+            to { transform: rotateZ(360deg); }
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 10px rgba(0, 212, 170, 0.5); }
+            100% { text-shadow: 0 0 20px rgba(0, 212, 170, 0.8), 0 0 30px rgba(0, 102, 255, 0.4); }
+        }
+
+        @keyframes particleMove {
+            0% { opacity: 0; transform: translateY(100px) translateX(0px); }
+            10%, 90% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-100px) translateX(50px); }
+        }
+
+        /* Size variations */
+        .devlink-logo.small { width: 100px; height: 100px; }
+        .devlink-logo.small .logo-text { font-size: 1.2rem; }
+
+        .devlink-logo.medium { width: 150px; height: 150px; }
+        .devlink-logo.medium .logo-text { font-size: 1.6rem; }
+
+        .devlink-logo.large { width: 300px; height: 300px; }
+        .devlink-logo.large .logo-text { font-size: 3rem; }
+
+        /* Theme variations */
+        .devlink-logo.dark {
+            filter: brightness(0.8) contrast(1.2);
+        }
+
+        .devlink-logo.light .logo-inner {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .devlink-logo.light .logo-text {
+            color: #333;
+        }
+
+        /* Minimal version */
+        .devlink-logo.minimal .logo-frame {
+            border: 2px solid #00d4aa;
+            background: none;
+            animation: none;
+        }
+
+        .devlink-logo.minimal .logo-inner {
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: none;
+        }
+    </style>
+</head>
+<body style="background: linear-gradient(135deg, #0a0a0a, #1a1a2e); padding: 50px; min-height: 100vh;">
+    
+    <!-- Demo: Different sizes and variations -->
+    <h1 style="color: white; text-align: center; margin-bottom: 50px;">DevLink Logo Component Variations</h1>
+    
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="color: #00d4aa;">Size Variations</h2>
+        <div class="devlink-logo small">
+            <div class="logo-frame">
+                <div class="logo-inner">
+                    <div class="logo-text">
+                        <span class="dev-part">dev</span><span class="link-part">link</span>
+                    </div>
+                </div>
+            </div>
+            <div class="logo-particles" id="particles1"></div>
+        </div>
+
+        <div class="devlink-logo medium">
+            <div class="logo-frame">
+                <div class="logo-inner">
+                    <div class="logo-text">
+                        <span class="dev-part">dev</span><span class="link-part">link</span>
+                    </div>
+                </div>
+            </div>
+            <div class="logo-particles" id="particles2"></div>
+        </div>
+
+        <div class="devlink-logo large">
+            <div class="logo-frame">
+                <div class="logo-inner">
+                    <div class="logo-text">
+                        <span class="dev-part">dev</span><span class="link-part">link</span>
+                    </div>
+                </div>
+            </div>
+            <div class="logo-particles" id="particles3"></div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="color: #00d4aa;">Theme Variations</h2>
+        <div class="devlink-logo dark">
+            <div class="logo-frame">
+                <div class="logo-inner">
+                    <div class="logo-text">
+                        <span class="dev-part">dev</span><span class="link-part">link</span>
+                    </div>
+                </div>
+            </div>
+            <div class="logo-particles" id="particles4"></div>
+        </div>
+
+        <div class="devlink-logo minimal">
+            <div class="logo-frame">
+                <div class="logo-inner">
+                    <div class="logo-text">
+                        <span class="dev-part">dev</span><span class="link-part">link</span>
+                    </div>
+                </div>
+            </div>
+            <div class="logo-particles" id="particles5"></div>
+        </div>
+    </div>
+
+    <!-- Integration Code Example -->
+    <div style="background: rgba(0,0,0,0.5); padding: 30px; border-radius: 10px; margin: 40px auto; max-width: 800px; color: white;">
+        <h2 style="color: #00d4aa; margin-bottom: 20px;">Integration Code</h2>
+        <pre style="background: #1a1a2e; padding: 20px; border-radius: 5px; overflow-x: auto; color: #00d4aa;"><code>&lt;!-- Basic Usage --&gt;
+&lt;div class="devlink-logo"&gt;
+    &lt;div class="logo-frame"&gt;
+        &lt;div class="logo-inner"&gt;
+            &lt;div class="logo-text"&gt;
+                &lt;span class="dev-part"&gt;dev&lt;/span&gt;&lt;span class="link-part"&gt;link&lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="logo-particles"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- With size and theme modifiers --&gt;
+&lt;div class="devlink-logo large minimal"&gt;
+    &lt;!-- Same structure as above --&gt;
+&lt;/div&gt;
+
+&lt;!-- Available classes: small, medium, large, dark, light, minimal --&gt;</code></pre>
+    </div>
+
+    <script>
+        // Create particles for each logo instance
+        function createParticles(containerId, count = 5) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 4 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Initialize particles for all demo logos
+        createParticles('particles1', 3);
+        createParticles('particles2', 4);
+        createParticles('particles3', 6);
+        createParticles('particles4', 4);
+        createParticles('particles5', 3);
+
+        // Add click interaction
+        document.querySelectorAll('.devlink-logo').forEach(logo => {
+            logo.addEventListener('click', () => {
+                // Create ripple effect
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.left = '50%';
+                ripple.style.top = '50%';
+                ripple.style.width = '10px';
+                ripple.style.height = '10px';
+                ripple.style.background = 'radial-gradient(circle, rgba(0,212,170,0.6) 0%, transparent 70%)';
+                ripple.style.borderRadius = '50%';
+                ripple.style.transform = 'translate(-50%, -50%)';
+                ripple.style.pointerEvents = 'none';
+                ripple.style.zIndex = '1000';
+                
+                logo.appendChild(ripple);
+                
+                ripple.animate([
+                    { width: '10px', height: '10px', opacity: 1 },
+                    { width: '200px', height: '200px', opacity: 0 }
+                ], {
+                    duration: 800,
+                    easing: 'ease-out'
+                });
+                
+                setTimeout(() => ripple.remove(), 800);
+            });
+        });
+
+        // Auto-create particles function for easy integration
+        window.DevLinkLogo = {
+            init: function(selector = '.devlink-logo') {
+                document.querySelectorAll(selector).forEach((logo, index) => {
+                    const particlesContainer = logo.querySelector('.logo-particles');
+                    if (particlesContainer && !particlesContainer.hasChildNodes()) {
+                        const size = logo.classList.contains('small') ? 3 : 
+                                   logo.classList.contains('large') ? 6 : 4;
+                        
+                        for (let i = 0; i < size; i++) {
+                            const particle = document.createElement('div');
+                            particle.className = 'particle';
+                            particle.style.left = Math.random() * 100 + '%';
+                            particle.style.animationDelay = Math.random() * 4 + 's';
+                            particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                            particlesContainer.appendChild(particle);
+                        }
+                    }
+                });
+            }
+        };
+    </script>
+</body>
+</html>
